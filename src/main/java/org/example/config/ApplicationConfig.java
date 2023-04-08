@@ -31,16 +31,4 @@ public class ApplicationConfig {
         source.setPassword("123");
         return source;
     }
-    @Bean
-    public UserDao userDao() throws SQLException {
-        return new UserDaoImpl(dataSource());
-    }
-    @Bean
-    public UserService userService() throws SQLException {
-        return new UserServiceImpl(userDao());
-    }
-    @Bean
-    public UserController userController() throws SQLException {
-        return new UserController(userService());
-    }
 }
