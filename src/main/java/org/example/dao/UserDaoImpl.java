@@ -1,34 +1,38 @@
 package org.example.dao;
 
-import org.example.exceptions.EmailAlreadyExistsException;
 import org.example.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class UserDaoImpl implements UserDao {
-    private final List<User> users = new ArrayList<>(List.of(
-            User.builder()
-                .id(1)
-                .email("i@bikmeev.ru")
-                .password("123")
-                .registrationDate(new Date())
-            .build(),
+    private final DataSource source;
+    @Autowired
+    public UserDaoImpl(DataSource source) throws SQLException {
+        this.source = source;
+      }
+    private final List<User> users = new ArrayList<>();
 
-            User.builder()
-                .id(2)
-                .email("ivanoff256@mail.ru")
-                .password("qwerty123")
-                .registrationDate(new Date())
-            .build()
-        )
-    );
+      public void boot() throws SQLException {
 
+          Connection cnn = source.getConnection();
+          Statement st = cnn.createStatement();
+          ResultSet set = st.executeQuery("SELECT * FROM users");
+          while(set.next()){
+              users.add(User.builder()
+                      .id(set.getInt("id"))
+                      .email(set.getString("email"))
+                      .password(set.getString("password"))
+                      .registrationDate(set.getDate("regDate"))
+                      .build());
+          }
+      }
 
     @Override
     public Optional<User> findById(int id) {
@@ -50,7 +54,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user) throws SQLException {
         users.add(user);
+        Connection cnn = source.getConnection();
+        PreparedStatement statement = cnn.prepareStatement("INSERT INTO Users (email,password, regdate) VALUES ( ?, ?,CURRENT_DATE)");
+        statement.setString(1,user.getEmail());
+        statement.setString(2,user.getPassword());
+        statement.execute();
     }
 }

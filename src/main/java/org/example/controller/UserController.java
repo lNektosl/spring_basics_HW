@@ -3,9 +3,12 @@ package org.example.controller;
 import org.example.model.User;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
@@ -15,6 +18,7 @@ import java.util.Scanner;
 public class UserController {
     private final UserService userService;
     private final Scanner scanner = new Scanner(System.in);
+
 
     @Autowired
     public UserController(UserService userService) {
@@ -28,7 +32,7 @@ public class UserController {
      * 3 - findAll
      * 4 - add
      */
-    public void action() {
+    public void action() throws SQLException {
         boolean stop = false;
         while(!stop) {
             System.out.println("Input your command: ");
@@ -69,7 +73,7 @@ public class UserController {
         userService.findAll().forEach(System.out::println);
     }
 
-    private void addUserHandler() {
+    private void addUserHandler() throws SQLException {
         System.out.println("Input your email and password: ");
         String email = scanner.nextLine();
 

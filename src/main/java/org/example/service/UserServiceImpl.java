@@ -4,8 +4,10 @@ import org.example.dao.UserDao;
 import org.example.exceptions.EmailAlreadyExistsException;
 import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -16,8 +18,9 @@ public class UserServiceImpl implements UserService {
     private final UserDao dao;
 
     @Autowired
-    public UserServiceImpl(UserDao dao) {
+    public UserServiceImpl(@Qualifier("userDaoImpl") UserDao dao) throws SQLException {
         this.dao = dao;
+        dao.boot();
     }
 
     @Override
@@ -40,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user) throws SQLException {
         Optional<User> existingUser = dao.findByEmail(user.getEmail());
         if(existingUser.isPresent()) {
             throw new EmailAlreadyExistsException(

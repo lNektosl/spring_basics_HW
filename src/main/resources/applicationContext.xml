@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xsi:schemaLocation="-->
+<!--        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">-->
 
-    <bean id="userDao" class="org.example.dao.UserDaoImpl">
+<!--&lt;!&ndash;    <bean id="userDao" class="org.example.dao.UserDaoImpl">&ndash;&gt;-->
 
-    </bean>
+<!--&lt;!&ndash;    </bean>&ndash;&gt;-->
 
-    <bean id="userService" class="org.example.service.UserServiceImpl">
-        <constructor-arg ref="userDao" />
-    </bean>
+<!--&lt;!&ndash;    <bean id="userService" class="org.example.service.UserServiceImpl">&ndash;&gt;-->
+<!--&lt;!&ndash;        <constructor-arg ref="userDao" />&ndash;&gt;-->
+<!--&lt;!&ndash;    </bean>&ndash;&gt;-->
 
-    <bean class="org.example.controller.UserController">
-        <constructor-arg ref="userService" />
-    </bean>
+<!--    <bean class="org.example.controller.UserController">-->
+<!--        <constructor-arg ref="userService" />-->
+<!--    </bean>-->
+<!--    <bean class="org.example.config.ApplicationConfig"/>-->
 
-</beans>
+<!--</beans>-->
